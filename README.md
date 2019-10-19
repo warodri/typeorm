@@ -21,48 +21,70 @@ brew install postgresql
 
 ```
 postgres --version
-postgres (PostgreSQL) 11.1
+postgres (PostgreSQL) 11.5
 ```
 
-HOW TO CREATE A PHYSICAL POSTGRESQL DATABASE
-===============================================
+LOGIN AS postgres USER
+========================
 
 ```
-initdb /usr/local/var/postgres
+sudo su postgres
 ```
 
-HOW TO START/STOP A POSTGRESQL DATABASE
-=========================================
-
-```
-pg_ctl -D /usr/local/var/postgres start
-pg_ctl -D /usr/local/var/postgres stop
-```
-
-HOW TO CREATE THE ACTUAL POSTGRESQL DATABASE
-=============================================
-
-```
-createdb mydatabasename
-dropdb mydatabasename
-```
-
-You can also connect to databases to execute SQL statements. Either use the psql command, or specify a database such as the default postgres database to connect:
-
-```
-psql mydatabasename
-```
-
-The command leads you to the psql shell, which you can exit by typing CTRL + d. In the psql shell, you can create and drop databases as well:
+Then enter your passsword. You will be able to run postgres commands.
 
 ```
 CREATE DATABASE mydatabasename;
 DROP DATABASE mydatabasename;
 ```
 
-\list - List all of your actual databases.
-\c mydatabasename - Connect to another database.
-\d - List the relations of your currently connected database.
-\d mytablename - Shows information for a specific table.
+* \list - List all of your actual databases.
+* \c mydatabasename - Connect to another database.
+* \d - List the relations of your currently connected database.
+* \d mytablename - Shows information for a specific table.
+
+
+CREATE NEW USER
+=================
+
+```
+createuser --interactive --pwprompt
+```
+
+1. At the Enter name of role to add: prompt, type the user's name.
+2. At the Enter password for new role: prompt, type a password for the user.
+3. At the Enter it again: prompt, retype the password.
+4. At the Shall the new role be a superuser? prompt, type y if you want to grant superuser access. Otherwise, type n.
+5. At the Shall the new role be allowed to create databases? prompt, type y if you want to allow the user to create new databases. Otherwise, type n.
+6. At the Shall the new role be allowed to create more new roles? prompt, type y if you want to allow the user to create new users. Otherwise, type n.
+7. PostgreSQL creates the user with the settings you specified.
+
+
+CREATING POSTGRESQL DATABASES
+==============================
+
+```
+createdb -O [user] [dbname]
+```
+
+Replace [user] with the user you just created and [dbname] with the name of your new database.
+
+ADDING AN EXISTING USER TO A DATABASE
+=======================================
+
+To grant an existing user privileges to a database, follow these steps:
+
+```
+GRANT permissions ON DATABASE dbname TO username;
+```
+
+More details on GRANT: https://www.postgresql.org/docs/9.1/sql-grant.html
+
+More info: https://www.a2hosting.co.uk/kb/developer-corner/postgresql/managing-postgresql-databases-and-users-from-the-command-line#Creating-PostgreSQL-users
+
+INSTALL POSTICO (postgres manager for Mac)
+=============================================
+
+Download from here: https://eggerapps.at/postico/
 
 
